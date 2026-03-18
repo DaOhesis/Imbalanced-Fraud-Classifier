@@ -29,10 +29,10 @@ Because this dataset is highly skewed (0.17% fraud), the model was evaluated usi
 *(Note: These visualizations were generated directly from the model's predictions on the unseen test set.)*
 
 **Confusion Matrix**
-![Confusion Matrix](images/confusion_matrix.png)
+![Confusion Matrix](confusion_matrix.png)
 
 **ROC-AUC Curve**
-![ROC AUC Curve](images/roc_auc_curve.png)
+![ROC AUC Curve](roc_auc_curve.png)
 
 ## 📉 Training Convergence
 To verify the custom Gradient Descent implementation, the Cost Function was tracked across iterations. The steady decay of the loss curve confirms that the optimization algorithm successfully converged to a global minimum without overshooting, validating the chosen learning rate ($\alpha$).
