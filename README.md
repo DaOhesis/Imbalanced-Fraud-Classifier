@@ -1,29 +1,35 @@
-# 💳 Credit Card Fraud Detection
-### *Building a Robust Classifier from Scratch*
+# 🕵️‍♂️ Credit Card Fraud Detection (Imbalanced Data Classifier)
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![Machine Learning](https://img.shields.io/badge/Focus-Imbalanced%20Data-orange?style=for-the-badge)
+An end-to-end Machine Learning project focused on detecting fraudulent credit card transactions. This project tackles the severe challenge of highly imbalanced data (where frauds account for less than 0.2% of all transactions) using a custom **Logistic Regression model built entirely from scratch** in Python.
 
----
+## 🚀 Project Overview
+Credit card fraud detection is a classic anomaly detection problem. Because legitimate transactions vastly outnumber fraudulent ones, standard metrics like "Accuracy" are misleading and useless. This project bypasses standard library crutches to implement **Precision, Recall, F1-Score, and customized Weighted Cost Functions** to correctly identify fraudulent patterns without blocking too many legitimate customers.
 
-## 📌 Project Overview
-Detecting fraud in credit card transactions is a "needle in a haystack" problem. In this project, I implemented **Logistic Regression from scratch** to identify fraudulent activity within a highly imbalanced dataset (0.17% fraud rate). 
+## 🛠️ Tech Stack
+* **Language:** Python
+* **Libraries:** NumPy (Core Math/Vectorization), Pandas (Data Manipulation), Matplotlib & Seaborn (Visualization), Scikit-Learn (Evaluation metrics & Data splitting only)
+* **Core Algorithm:** Logistic Regression (Custom implementation from scratch)
 
-> **Key takeaway:** Accuracy is misleading here. This project prioritizes **Recall** and **AUPRC** to ensure we actually catch the fraudulent transactions.
+## 🧠 Key Features & Mathematical Underpinnings
+* **Built From Scratch:** Implemented Logistic Regression completely using NumPy. This includes a custom Gradient Descent optimizer and a vectorized Sigmoid activation function.
+* **Binary Log Loss (Cross-Entropy):** Instead of using standard Mean Squared Error (which causes non-convex cost functions in classification), the model optimizes the Binary Log Loss function to calculate the error between predicted probabilities and actual classes.
+* **Imbalanced Data Handling (Weighted Loss):** To prevent the model from ignoring the rare fraud cases, I modified the standard Binary Log Loss function to include class weights. It assigns a higher weight ($w_1$) to fraud cases and a lower weight ($w_0$) to legitimate ones.
+  * **Custom Cost Formula:** $$J = -\frac{1}{n} \sum [w_1 \cdot y \log(\hat{y}) + w_0 \cdot (1-y) \log(1-\hat{y})]$$
+* **Z-Score Normalization:** Scaled features like 'Amount' and 'Time' to match the PCA-transformed 'V1-V28' features, ensuring a spherical cost function and faster gradient descent convergence.
 
----
+## 📊 Model Evaluation & Results
+Because this dataset is highly skewed (0.17% fraud), the model was evaluated using metrics specifically suited for imbalanced classes:
 
-## 🛠️ The "From Scratch" Engine
-Instead of using high-level libraries for the model logic, I coded the mathematical core using **Vectorized NumPy** operations for efficiency.
+* **Confusion Matrix:** Visualizes the trade-off between False Positives (flagging a normal transaction) and False Negatives (missing a fraudulent one).
+* **Precision & Recall:** * *Precision:* Out of all transactions flagged as fraud, how many were actually fraud?
+  * *Recall:* Out of all actual frauds, how many did we successfully catch?
+* **ROC-AUC Score:** Evaluated the model's ability to distinguish between the positive and negative classes across various threshold settings.
 
-| Component | Logic |
-| :--- | :--- |
-| **Activation** | Sigmoid Function $\sigma(z) = \frac{1}{1 + e^{-z}}$ |
-| **Cost Function** | Log-Loss (Binary Cross-Entropy) |
-| **Optimizer** | Gradient Descent |
-| **Feature Scaling** | Z-Score Normalization ($\frac{x - \mu}{\sigma}$) |
+## 📉 Training Convergence
+To verify the custom Gradient Descent implementation, the Cost Function was tracked across iterations. The steady decay of the loss curve confirms that the optimization algorithm successfully converged to a global minimum without overshooting, validating the chosen learning rate ($\alpha$).
 
+## 💼 Business Application & Threshold Tuning
+The standard classification threshold of $0.5$ is not optimal for real-world fraud detection. A false negative (missing a fraudulent transaction) costs a bank significantly more than a false positive (temporarily declining a legitimate transaction). 
+By analyzing the Precision-Recall curve, the decision threshold in this project was lowered to maximize Recall, ensuring the vast majority of fraud is caught while keeping false alarms at an acceptable business level.
 
 ---
